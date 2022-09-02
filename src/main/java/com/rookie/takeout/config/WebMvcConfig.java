@@ -40,18 +40,18 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
      * 添加登录检查拦截器
      * @param registry
      */
-    @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
-        //后台员工登录拦截器
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/backend/page/**","/backend/index.html")
-                .excludePathPatterns("/backend/page/login/login.html");
-        //前台用户登录拦截器
-        registry.addInterceptor(new UserLoginInterceptor())
-                .addPathPatterns("/front/page/**","/front/index.html")
-                .excludePathPatterns("/front/page/login.html");
-
-    }
+//    @Override
+//    protected void addInterceptors(InterceptorRegistry registry) {
+//        //后台员工登录拦截器
+//        registry.addInterceptor(new LoginInterceptor())
+//                .addPathPatterns("/backend/page/**","/backend/index.html")
+//                .excludePathPatterns("/backend/page/login/login.html");
+//        //前台用户登录拦截器
+//        registry.addInterceptor(new UserLoginInterceptor())
+//                .addPathPatterns("/front/page/**","/front/index.html")
+//                .excludePathPatterns("/front/page/login.html");
+//
+//    }
 
     /**
      * 扩展mvc框架的消息转换器
