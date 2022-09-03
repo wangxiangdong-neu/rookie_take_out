@@ -14,4 +14,11 @@ public interface ShoppingCartService extends IService<ShoppingCart> {
      * 清空购物车
      */
     void cleanShoppingCart();
+
+    /**
+     * 加入购物车
+     * @param shoppingCart
+     * @return
+     */
+    ShoppingCart addShoppingCart(ShoppingCart shoppingCart);
 }

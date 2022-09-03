@@ -16,4 +16,9 @@ public interface OrdersService extends IService<Orders> {
      */
     public void submitOrder(Orders orders);
 
+    /**
+     * 再来一单
+     * @param orders
+     */
+    void again(Orders orders);
 }

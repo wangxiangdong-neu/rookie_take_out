@@ -34,28 +34,8 @@ public class ShoppingCartController {
      */
     @PostMapping("/add")
     public R<ShoppingCart> addShoppingCart(@RequestBody ShoppingCart shoppingCart) {
-        //设置用户id，指定当前是哪个用户的购物车数据
-        shoppingCart.setUserId(BaseContext.getCurrentId());
 
-        //查询购物车中是否存在已有的菜品或套餐
-        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(ShoppingCart::getUserId, shoppingCart.getUserId());
-        queryWrapper.eq(shoppingCart.getDishId() != null, ShoppingCart::getDishId, shoppingCart.getDishId());
-        queryWrapper.eq(shoppingCart.getSetmealId() != null, ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
-        ShoppingCart shoppingCart1 = shoppingCartService.getOne(queryWrapper);
-
-        if (shoppingCart1 != null) {
-            //如果已经存在，就在原来数量基础上加一
-            shoppingCart1.setNumber(shoppingCart1.getNumber() + 1);
-            shoppingCartService.updateById(shoppingCart1);
-        } else {
-            //如果不存在，则添加到购物车，数量默认就是一
-            shoppingCart.setNumber(1);
-            shoppingCart.setCreateTime(LocalDateTime.now());
-            shoppingCartService.save(shoppingCart);
-            shoppingCart1 = shoppingCart;
-
-        }
+        ShoppingCart shoppingCart1 = shoppingCartService.addShoppingCart(shoppingCart);
 
         return R.success(shoppingCart1);
     }

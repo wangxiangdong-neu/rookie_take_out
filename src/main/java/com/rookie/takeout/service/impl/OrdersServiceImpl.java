@@ -117,6 +117,37 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders>
         //清空购物车数据
         shoppingCartService.remove(shoppingCartLambdaQueryWrapper);
     }
+
+    /**
+     * 再来一单
+     * @param orders
+     */
+    @Transactional
+    @Override
+    public void again(Orders orders) {
+
+        //根据订单id查询订单明细表，获取菜品数据
+        LambdaQueryWrapper<OrderDetail> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderDetail::getOrderId, orders.getId());
+        List<OrderDetail> orderDetails = orderDetailService.list(queryWrapper);
+
+        //清空购物车
+        shoppingCartService.cleanShoppingCart();
+
+        //将菜品加入购物车
+        for (OrderDetail orderDetail : orderDetails) {
+
+            ShoppingCart shoppingCart = new ShoppingCart();
+            BeanUtils.copyProperties(orderDetail, shoppingCart, "id", "orderId");
+            shoppingCart.setUserId(BaseContext.getCurrentId());
+            shoppingCart.setCreateTime(LocalDateTime.now());
+            shoppingCartService.addShoppingCart(shoppingCart);
+
+        }
+
+    }
+
+
 }
 
 

@@ -78,8 +78,8 @@ public class UserController {
 
         //从Session中获取保存的验证码
         String codeInSession = (String) session.getAttribute(phone);
+        //如果能够比对成功，说明登录成功
         if (StringUtils.isNotEmpty(codeInSession) && codeInSession.equals(code)) {
-            //如果能够比对成功，说明登录成功
 
             LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(User::getPhone, phone);
@@ -91,6 +91,12 @@ public class UserController {
                 user.setPhone(phone);
                 user.setStatus(1);
                 userService.save(user);
+            }
+
+            //设置默认用户名
+            if (user.getName() == null) {
+                user.setName("菜鸟用户_" + user.getId());
+                userService.updateById(user);
             }
 
             //查看用户状态，如果为已禁用状态，则返回员工已禁用结果. 0表示禁用，1表示可用
